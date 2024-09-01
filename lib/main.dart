@@ -17,28 +17,28 @@ final counterStateProvider = StateProvider.autoDispose<int>((ref) {
   return 0;
 });
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    print('build');
+  Widget build(BuildContext context, WidgetRef ref) {
+    print('MyHomePage build');
     return Scaffold(
       body: Center(
-        child: Consumer(builder: (context, refValue, child) {
-          final value = refValue.watch(counterStateProvider);
-          return Text(
-            'Value: $value',
-            style: Theme.of(context).textTheme.headlineMedium,
-          );
-        }),
-      ),
-      floatingActionButton: Consumer(builder: (context, refValue, child) {
-        return FloatingActionButton(
-          onPressed: () {
-            refValue.read(counterStateProvider.notifier).state++;
+        child: Consumer(
+          builder: (context, ref, child) {
+            final value = ref.watch(counterStateProvider);
+            return Text(
+              'Value: $value',
+              style: Theme.of(context).textTheme.headlineMedium,
+            );
           },
-          child: Icon(Icons.add),
-        );
-      }),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(counterStateProvider.notifier).state++;
+        },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
