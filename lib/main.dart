@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'counter_view_model.dart';
 
 void main() {
   runApp(ProviderScope(
@@ -13,29 +14,30 @@ void main() {
   ));
 }
 
-final counterStateProvider = StateProvider.autoDispose<int>((ref) {
-  return 0;
-});
-
+// The main widget that displays the counter value and a button to increment it
 class MyHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     print('MyHomePage build');
+
+    // // Watch the counter state from the provider
+    // final counter = ref.watch(counterStateProvider);
+
     return Scaffold(
       body: Center(
-        child: Consumer(
-          builder: (context, ref, child) {
-            final value = ref.watch(counterStateProvider);
-            return Text(
-              'Value: $value',
-              style: Theme.of(context).textTheme.headlineMedium,
-            );
-          },
-        ),
+        child: Consumer(builder: (context, refValue, child){
+          // Watch the counter state from the provider
+          final counter = refValue.watch(counterStateProvider);
+          return Text(
+            'Value: $counter',
+            style: Theme.of(context).textTheme.headlineMedium,
+          );
+        }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(counterStateProvider.notifier).state++;
+          // Increment the counter by calling the method in the ViewModel
+          ref.read(counterStateProvider.notifier).incrementCounter();
         },
         child: Icon(Icons.add),
       ),
