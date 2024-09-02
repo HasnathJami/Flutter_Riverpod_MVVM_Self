@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'counter_view_model.dart';
+import '../view_model/counter_view_model.dart';
 
 void main() {
   runApp(ProviderScope(
